@@ -2,12 +2,17 @@
 
 set -e
 
-TARGET=$1
+TARGETS=""
 
-echo Building Sensu gems for: $TARGET
+while [ "$1" ] && [ "$1" != "--" ]; do
+	TARGETS="$TARGETS $1"
+	shift
+done
 
-if [ "$2" = "--" ]; then
-	shift 2
+echo Building Sensu gems for: $TARGETS
+
+if [ "$1" = "--" ]; then
+	shift
 	DEPENDENCIES=$@
 fi
 
@@ -28,7 +33,7 @@ if [ $DEPENDENCIES ]; then
 	apt-get install -y --force-yes $DEPENDENCIES
 fi
 
-$GEM install --no-ri --no-rdoc --install-dir /tmp/gems $TARGET
+$GEM install --no-ri --no-rdoc --install-dir /tmp/gems $TARGETS
 
 set +e
 
