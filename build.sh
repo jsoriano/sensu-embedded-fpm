@@ -2,11 +2,12 @@
 
 [ "$1" ] || {
 	echo "
-$0 GEM_PACKAGE [-- DEB_DEPENDENCIES ]
+$0 GEM_PACKAGE1 [GEM_PACKAGE2 [...]] [-- DEB_DEPENDENCY [...]]
 
 Examples:
 	$0 mysql -- libmysqlclient-dev
 	$0 inifile
+	$0 mysql inifile -- libmysqlclient-dev
 "
 	exit 1
 }
