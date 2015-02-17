@@ -7,8 +7,9 @@ RUN echo "deb http://repos.sensuapp.org/apt sensu main" > /etc/apt/sources.list.
 RUN apt-get update
 RUN apt-get install -y sensu
 RUN apt-get install -y build-essential
+RUN apt-get install -y ruby rubygems
 
-RUN /opt/sensu/embedded/bin/gem install fpm
+RUN gem install fpm --no-ri --no-rdoc
 ADD fpm_build.sh /fpm_build.sh
 
 ENTRYPOINT ["/fpm_build.sh"]
