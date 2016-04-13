@@ -18,7 +18,8 @@ fi
 
 EMBEDDED_PATH=/opt/sensu/embedded/bin
 GEM=$EMBEDDED_PATH/gem
-FPM=$(gem environ gemdir)/bin/fpm
+PATH=$PATH:$(gem environ gemdir)/bin/
+FPM=$(which fpm)
 
 PREFIX=sensu-gem
 OPTIONS="--gem-gem $GEM --gem-package-name-prefix=$PREFIX"

@@ -14,5 +14,6 @@ Examples:
 
 mkdir -p $PWD/out
 
+set -e
 docker build -t sensu-fpm .
-docker run -i -t -v $PWD/out:/out sensu-fpm "$@"
+docker run -it --rm -v $PWD/out:/out sensu-fpm "$@"

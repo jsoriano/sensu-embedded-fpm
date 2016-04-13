@@ -10,7 +10,7 @@ RUN apt-get update && \
 	apt-get install -y ruby rubygems ruby-dev && \
 	apt-get clean
 
-RUN gem install fpm --no-ri --no-rdoc
+RUN /opt/sensu/embedded/bin/gem install fpm --no-ri --no-rdoc
 ADD fpm_build.sh /fpm_build.sh
 
 ENTRYPOINT ["/fpm_build.sh"]
