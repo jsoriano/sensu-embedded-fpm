@@ -21,8 +21,9 @@ Usage
 
 - Install docker
 - `./build.sh gempackage -- dependency1 dependency2`
-- e.g: `./build.sh mysql -- libmysqlclient-dev`
+- e.g: `DISTRIBUTIONS=jessie ./build.sh mysql -- libmysqlclient-dev`
 - You'll have the debian packages in the out directory
 
-NOTE: Be careful with not flooding your system with old docker containers ;)
-You can check it with docker ps -a.
+By default, it builds the package for all the distributions in the dockerfiles
+directory set `DISTRIBUTIONS` environment variable to the space-separated list of
+distributuions you want to build for.

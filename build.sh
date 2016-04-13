@@ -1,5 +1,7 @@
 #!/bin/bash
 
+DISTRIBUTIONS=${DISTRIBUTIONS-$(ls dockerfiles | tr '\n' ' ')}
+
 [ "$1" ] || {
 	echo "
 $0 GEM_PACKAGE1 [GEM_PACKAGE2 [...]] [-- DEB_DEPENDENCY [...]]
@@ -12,8 +14,12 @@ Examples:
 	exit 1
 }
 
-mkdir -p $PWD/out
+echo "Building for: $DISTRIBUTIONS"
 
 set -e
-docker build -t sensu-fpm .
-docker run -it --rm -v $PWD/out:/out sensu-fpm "$@"
+for distribution in $DISTRIBUTIONS; do
+	docker build -f dockerfiles/$distribution/Dockerfile -t sensu-fpm:$distribution .
+
+	mkdir -p $PWD/out/$distribution
+	docker run -it --rm -v $PWD/out/$distribution:/out sensu-fpm:$distribution "$@"
+done

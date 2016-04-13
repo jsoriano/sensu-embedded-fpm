@@ -18,7 +18,7 @@ fi
 
 EMBEDDED_PATH=/opt/sensu/embedded/bin
 GEM=$EMBEDDED_PATH/gem
-PATH=$PATH:$(gem environ gemdir)/bin/
+PATH=$PATH:$(gem environ gemdir)/bin
 FPM=$(which fpm)
 
 PREFIX=sensu-gem
@@ -37,5 +37,4 @@ fi
 $GEM install --no-ri --no-rdoc --install-dir /tmp/gems $TARGETS
 
 set +e
-
 find /tmp/gems -name *.gem -exec $FPM -p /out -d sensu -s gem -t deb $OPTIONS {}  \;
