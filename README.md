@@ -27,3 +27,5 @@ Usage
 By default, it builds the package for all the distributions in the dockerfiles
 directory set `DISTRIBUTIONS` environment variable to the space-separated list of
 distributuions you want to build for.
+
+Or use directly the [pre-built dockers](https://hub.docker.com/r/jsoriano/sensu-fpm/)
