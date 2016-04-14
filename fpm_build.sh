@@ -31,6 +31,7 @@ for dependency in $EXCLUDED_DEPENDENCIES; do
 done
 
 if [ $DEPENDENCIES ]; then
+	apt-get update
 	apt-get install -y --force-yes $DEPENDENCIES
 fi
 
