@@ -20,8 +20,9 @@ Usage
 -----
 
 - Install docker
-- `./build.sh gempackage -- dependency1 dependency2`
-- e.g: `DISTRIBUTIONS=jessie ./build.sh mysql -- libmysqlclient-dev`
+- `./build.sh -d debian_dependency1 -d debian_dependency2 gempackage`
+- `./build.sh -g gem_dependency1 -g gem_dependency,2.3.4 gempackage`
+- e.g: `DISTRIBUTIONS=jessie ./build.sh -d libmysqlclient-dev -d activesupport,2.4.7 mysql`
 - You'll have the debian packages in the out directory
 
 By default, it builds the package for all the distributions in the dockerfiles

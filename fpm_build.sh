@@ -3,18 +3,29 @@
 set -e
 
 TARGETS=""
+DEB_DEPENDENCIES=""
+RUBY_DEPENDENCIES=""
 
-while [ "$1" ] && [ "$1" != "--" ]; do
-	TARGETS="$TARGETS $1"
-	shift
+while getopts "d:g:" dep; do
+    case $dep in
+        d)
+            DEB_DEPENDENCIES="$DEB_DEPENDENCIES $OPTARG"
+            ;;
+        g)
+            RUBY_DEPENDENCIES="$RUBY_DEPENDENCIES $OPTARG"
+            ;;
+        :)
+            echo "OPTION -$OPTARG requires an argument"
+            exit 1
+            ;;
+    esac
 done
+
+shift $((OPTIND-1))
+TARGETS="$@"
 
 echo Building Sensu gems for: $TARGETS
 
-if [ "$1" = "--" ]; then
-	shift
-	DEPENDENCIES=$@
-fi
 
 EMBEDDED_PATH=/opt/sensu/embedded/bin
 GEM=$EMBEDDED_PATH/gem
@@ -30,10 +41,20 @@ for dependency in $EXCLUDED_DEPENDENCIES; do
 	OPTIONS="$OPTIONS --gem-disable-dependency $dependency"
 done
 
-if [ $DEPENDENCIES ]; then
+if [ $DEBIAN_DEPENDENCIES ]; then
 	apt-get update
-	apt-get install -y --force-yes $DEPENDENCIES
+	apt-get install -y --force-yes $DEBIAN_DEPENDENCIES
 fi
+
+for DGEM in $RUBY_DEPENDENCIES; do
+    read GEM_NAME GEM_VERSION <<< $( echo $DGEM | tr "," " ")
+    if [ $GEM_VERSION ]; then
+        GEM_VERSION_PARAM="-v $GEM_VERSION"
+    else
+        GEM_VERSION_PARAM=''
+    fi
+    $GEM install --no-ri --no-rdoc --install-dir /tmp/gems $GEM_NAME $GEM_VERSION_PARAM
+done
 
 $GEM install --no-ri --no-rdoc --install-dir /tmp/gems $TARGETS
 
