@@ -2,6 +2,19 @@
 
 set -e
 
+contains() {
+    local haystack=${1}[@]
+    local needle=${2}
+    local i name version
+    for i in ${!haystack}; do
+        read name version <<< $(echo $i | tr "," " ")
+        if [[ ${name} == ${needle} ]]; then
+            return 0
+        fi
+    done
+    return 1
+}
+
 TARGETS=""
 DEB_DEPENDENCIES=""
 RUBY_DEPENDENCIES=""
@@ -38,7 +51,9 @@ OPTIONS="--gem-gem $GEM --gem-package-name-prefix=$PREFIX"
 EXCLUDED_DEPENDENCIES=$(/opt/sensu/embedded/bin/gem list --no-versions)
 
 for dependency in $EXCLUDED_DEPENDENCIES; do
-	OPTIONS="$OPTIONS --gem-disable-dependency $dependency"
+    if ! contains RUBY_DEPENDENCIES $dependency; then
+	    OPTIONS="$OPTIONS --gem-disable-dependency $dependency"
+    fi
 done
 
 if [ $DEBIAN_DEPENDENCIES ]; then
