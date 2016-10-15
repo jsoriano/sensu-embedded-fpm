@@ -11,6 +11,7 @@ RUN apt-get update
 RUN apt-get install -y sensu
 RUN apt-get install -y build-essential
 RUN apt-get install -y ruby rubygems
+RUN gem install json -v 1.8.3 --no-ri --no-rdoc
 RUN gem install fpm -v 1.3.3 --no-ri --no-rdoc
 ADD fpm_build.sh /fpm_build.sh
 
