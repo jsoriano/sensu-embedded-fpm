@@ -8,9 +8,9 @@ RUN apt-get update && \
 	apt-get install -y sensu && \
 	apt-get install -y build-essential && \
 	apt-get install -y ruby rubygems ruby-dev && \
-	apt-get clean
+	apt-get clean && \
+	gem install fpm --no-ri --no-rdoc
 
-RUN gem install fpm --no-ri --no-rdoc
 ADD fpm_build.sh /fpm_build.sh
 
 ENTRYPOINT ["/fpm_build.sh"]
