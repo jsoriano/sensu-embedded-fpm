@@ -11,10 +11,10 @@ RUN echo 'Acquire::Check-Valid-Until "false";' > /etc/apt/apt.conf.d/99-ignore-v
 	apt-get install -y sensu && \
 	apt-get install -y build-essential && \
 	apt-get install -y ruby rubygems && \
-	apt-get clean
+	apt-get clean && \
+	gem install json -v 1.8.3 --no-ri --no-rdoc && \
+	gem install fpm -v 1.3.3 --no-ri --no-rdoc
 
-RUN gem install json -v 1.8.3 --no-ri --no-rdoc
-RUN gem install fpm -v 1.3.3 --no-ri --no-rdoc
 ADD fpm_build.sh /fpm_build.sh
 
 ENTRYPOINT ["/fpm_build.sh"]
