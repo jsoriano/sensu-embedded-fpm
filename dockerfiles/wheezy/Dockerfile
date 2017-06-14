@@ -1,9 +1,9 @@
 FROM debian:wheezy
 
 RUN apt-get update && \
-	apt-get install -y wget && \
-	wget -q http://repos.sensuapp.org/apt/pubkey.gpg -O- | apt-key add - && \
-	echo "deb http://repos.sensuapp.org/apt sensu main" > /etc/apt/sources.list.d/sensu.list && \
+	apt-get install -y wget apt-transport-https && \
+	wget -q https://sensu.global.ssl.fastly.net/apt/pubkey.gpg -O- | apt-key add - && \
+	echo "deb https://sensu.global.ssl.fastly.net/apt wheezy main" > /etc/apt/sources.list.d/sensu.list && \
 	apt-get update && \
 	apt-get install -y sensu && \
 	apt-get install -y build-essential && \
